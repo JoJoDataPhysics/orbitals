@@ -1,55 +1,36 @@
-mod coordinate_conversion;
-mod h_orbitals;
-use coordinate_conversion::{cartesian_to_spherical, spherical_to_cartesian, Cartesian, Spherical};
-use h_orbitals::probability_density_1s;
-use h_orbitals::BOHR_RADIUS;
+extern crate orbitals;
+use orbitals::coordinate_conversion::cartesian_to_spherical;
+use orbitals::coordinate_conversion::Cartesian;
+use orbitals::random_walk::eval_step;
+use orbitals::random_walk::new_step;
 
 fn main() {
-    // e Cartesian coordinate
-    let cartesian = Cartesian {
-        x: 3.0,
-        y: 4.0,
-        z: 5.0,
+    let origin = orbitals::coordinate_conversion::Cartesian {
+        x: 0.0,
+        y: 0.0,
+        z: 0.0,
     };
-    println!("Original Cartesian coordinates: {:?}", cartesian);
-
-    let spherical = Spherical {
-        r: 3.0,
-        theta: 71_f64.to_radians(),
-        phi: 45_f64.to_radians(),
-    };
-
-    println!("Original Spherical coordinates: {:?}", spherical);
-    // Convert to Spherical coordinates
-    let sph = cartesian_to_spherical(cartesian);
-    let cart = spherical_to_cartesian(spherical);
-    println!(
-        "Converted to Spherical coordinates:\n  r = {:.5}\n  theta = {:.5} rad ({:.2} degrees)\n  phi = {:.5} rad ({:.2} degrees)",
-        sph.r,
-        sph.theta,
-        sph.theta.to_degrees(),
-        sph.phi,
-        sph.phi.to_degrees()
-    );
-
-    // Convert back to Cartesian coordinates
-    let cart_converted = spherical_to_cartesian(sph);
-    println!(
-        "Converted back to Cartesian coordinates: {:?}",
-        cart_converted
-    );
-    println!("Converted to Cartesian coordinates: {:?}", cart);
-
-    // Example: Calculate the probability density at various distances from the nucleus
-    let distances = [0.0, 0.1 * BOHR_RADIUS, BOHR_RADIUS, 2.0 * BOHR_RADIUS];
-
-    println!("\nExample: Calculate the probability density at various distances from the proton:");
-    println!("Probability density for the 1s orbital:");
-    for &r in distances.iter() {
-        let density = probability_density_1s(r);
-        println!(
-            "At r = {:.2e} m, probability density = {:.5e} m^-3",
-            r, density
-        );
+    println!("simulating random walk");
+    let mut points: Vec<Cartesian> = Vec::new();
+    let mut rejected = 0;
+    let mut accepted = 0;
+    let radius = 0.10;
+    let mut old_position = origin;
+    for _ in 0..10000 {
+        let new_position = new_step(old_position, radius);
+        let valid_step = eval_step(old_position, new_position);
+        if valid_step {
+            //println!("New position: {:?}", new_position);
+            old_position = new_position;
+            points.push(new_position);
+            accepted += 1;
+        } else {
+            rejected += 1;
+        }
+    }
+    println!("Accepted steps: {}", accepted);
+    println!("Rejected steps: {}", rejected);
+    for point in points {
+        println!("{:?}", cartesian_to_spherical(point));
     }
 }

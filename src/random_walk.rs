@@ -1,0 +1,31 @@
+use crate::coordinate_conversion::{
+    cartesian_to_spherical, spherical_to_cartesian, Cartesian, Spherical,
+};
+use crate::h_orbitals::probability_density_1s;
+use crate::h_orbitals::BOHR_RADIUS;
+use rand::Rng;
+use std::f64::consts::PI;
+
+pub fn new_step(start_pt: Cartesian, radius: f64) -> Cartesian {
+    let mut rng = rand::thread_rng();
+    let r = radius * BOHR_RADIUS * rng.gen::<f64>();
+    let theta = 2.0 * PI * rng.gen::<f64>();
+    let phi = PI * rng.gen::<f64>();
+    let sph = Spherical { r, theta, phi };
+    let inc = spherical_to_cartesian(sph);
+    Cartesian {
+        x: start_pt.x + inc.x,
+        y: start_pt.y + inc.y,
+        z: start_pt.z + inc.z,
+    }
+}
+
+pub fn eval_step(pos_1: Cartesian, pos_2: Cartesian) -> bool {
+    let sph_1 = cartesian_to_spherical(pos_1);
+    let sph_2 = cartesian_to_spherical(pos_2);
+    let r_1 = sph_1.r;
+    let r_2 = sph_2.r;
+    let prob_1 = probability_density_1s(r_1);
+    let prob_2 = probability_density_1s(r_2);
+    (1.0_f64).min(prob_2 / prob_1) > rand::thread_rng().gen::<f64>()
+}
