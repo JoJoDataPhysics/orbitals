@@ -1,8 +1,10 @@
 extern crate orbitals;
-use orbitals::coordinate_conversion::cartesian_to_spherical;
+
 use orbitals::coordinate_conversion::Cartesian;
+use orbitals::h_orbitals::BOHR_RADIUS;
 use orbitals::random_walk::eval_step;
 use orbitals::random_walk::new_step;
+use orbitals::render_cloud::render_cloud;
 
 fn main() {
     let origin = orbitals::coordinate_conversion::Cartesian {
@@ -14,9 +16,18 @@ fn main() {
     let mut points: Vec<Cartesian> = Vec::new();
     let mut rejected = 0;
     let mut accepted = 0;
-    let radius = 0.10;
+    let radius = 1.5 * BOHR_RADIUS;
     let mut old_position = origin;
+    // Burn-in period
     for _ in 0..10000 {
+        let new_position = new_step(old_position, radius);
+        let valid_step = eval_step(old_position, new_position);
+        if valid_step {
+            old_position = new_position;
+        }
+    }
+    // Production period
+    for _ in 0..15000 {
         let new_position = new_step(old_position, radius);
         let valid_step = eval_step(old_position, new_position);
         if valid_step {
@@ -30,7 +41,5 @@ fn main() {
     }
     println!("Accepted steps: {}", accepted);
     println!("Rejected steps: {}", rejected);
-    for point in points {
-        println!("{:?}", cartesian_to_spherical(point));
-    }
+    render_cloud(&points);
 }

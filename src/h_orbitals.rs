@@ -1,7 +1,7 @@
 use std::f64::consts::PI;
 
 // Constants
-pub const BOHR_RADIUS: f64 = 5.29177210903e-11; // Bohr radius in meters
+pub const BOHR_RADIUS: f64 = 1.0; //5.29177210903e-11; // Bohr radius in meters
 
 // Function to calculate the probability density of the 1s orbital
 pub fn probability_density_1s(r: f64) -> f64 {
