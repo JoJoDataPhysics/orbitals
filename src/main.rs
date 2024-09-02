@@ -16,10 +16,10 @@ fn main() {
     let mut points: Vec<Cartesian> = Vec::new();
     let mut rejected = 0;
     let mut accepted = 0;
-    let radius = 1.5 * BOHR_RADIUS;
+    let radius = 3.5 * BOHR_RADIUS;
     let mut old_position = origin;
     // Burn-in period
-    for _ in 0..10000 {
+    for _ in 0..20000 {
         let new_position = new_step(old_position, radius);
         let valid_step = eval_step(old_position, new_position);
         if valid_step {
@@ -27,7 +27,8 @@ fn main() {
         }
     }
     // Production period
-    for _ in 0..15000 {
+    let target = 25000;
+    while accepted < target {
         let new_position = new_step(old_position, radius);
         let valid_step = eval_step(old_position, new_position);
         if valid_step {
