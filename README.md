@@ -14,8 +14,9 @@ A sequence of approved positions forms a random path in 3D space, which is used 
 # Project Architecture
 ```mermaid
 graph TD
-    A[(Quantum Theoretical Probability Density)]
-    B[(Metropolis-Hastings Algorithm)]
+    A[(Quantum Theoretical 
+        Probability Density)]
+    B[(Metropolis-Hastings)]
     C[(Random Walk)]
     D[(3D Rendering)]
 
