@@ -8,6 +8,8 @@ A sequence of approved positions forms a random path in 3D space, which is used 
 - Learn how to use mathematical functions in Rust
 - Implement the Metropolis-Hastings algorithm
 - Render 3D graphics in Rust with the kiss3d library
+# Result
+
 # Project Architecture
 ```mermaid
 graph TD
