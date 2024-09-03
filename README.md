@@ -4,7 +4,7 @@ The potential location of the electron is calculated by calculating isotropic st
 The probability density according to the wave function is used to approve or reject the new potential positions.
 A sequence of approved positions forms a random path in 3D space, which is used to visualize the shape of the orbital.
 # Learning Goals
-- set up a project in Rust
+- Set up my first project in Rust
 - Learn how to use mathematical functions in Rust
 - Implement the Metropolis-Hastings algorithm
 - Render 3D graphics in Rust with the kiss3d library
