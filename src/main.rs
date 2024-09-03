@@ -13,13 +13,14 @@ fn main() {
         y: 0.0,
         z: 0.0,
     };
-    println!("simulating random walk");
     let mut points: Vec<Cartesian> = Vec::new();
     let mut rejected = 0;
     let mut accepted = 0;
-    let radius = 5.0 * BOHR_RADIUS;
+    let mut stored = 0;
+    let radius = 1.5 * BOHR_RADIUS;
     let mut old_position = origin;
     // Burn-in period
+    println!("starting burn-in");
     for _ in 0..20000 {
         let new_position = new_step(old_position, radius);
         let valid_step = eval_step_1s(old_position, new_position);
@@ -28,19 +29,30 @@ fn main() {
         }
     }
     // Production period
-    let target = 20000;
-    while accepted < target {
+    println!("starting random walk");
+    let target = 90000;
+    let skip = 100;
+    let mut cur_skip = 0;
+    while stored < target {
         let new_position = new_step(old_position, radius);
         let valid_step = eval_step_3d_z2(old_position, new_position);
         if valid_step {
-            //println!("New position: {:?}", new_position);
             old_position = new_position;
-            points.push(new_position);
-            accepted += 1;
+            if cur_skip < skip {
+                cur_skip += 1;
+                accepted += 1;
+                continue;
+            } else {
+                cur_skip = 0;
+                points.push(new_position);
+                accepted += 1;
+                stored += 1;
+            }
         } else {
             rejected += 1;
         }
     }
+    println!("stored steps: {}", stored);
     println!("Accepted steps: {}", accepted);
     println!("Rejected steps: {}", rejected);
     render_cloud(&points);
