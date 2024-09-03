@@ -1,7 +1,7 @@
 # Motivation
 This project should simulate the orbitals of the hydrogen atom using the Metropolis-Hastings algorithm:
 The potential location of the electron is calculated by calculating isotropic steps within a certain radius.
-The probability density according to the wave function is used to approve or reject the new potential positions.
+Ratios of the probability densities are used to approve or reject the new potential positions.
 A sequence of approved positions forms a random path in 3D space, which is used to visualize the shape of the orbital.
 # Learning Goals
 - Set up my first project in Rust
