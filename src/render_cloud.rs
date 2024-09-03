@@ -2,6 +2,7 @@ extern crate kiss3d;
 use core::f32;
 
 use crate::coordinate_conversion::Cartesian;
+use kiss3d::camera::ArcBall;
 use kiss3d::light::Light;
 use kiss3d::nalgebra::{Point3, Translation3};
 use kiss3d::window::Window;
@@ -22,14 +23,17 @@ pub fn render_cloud(positions: &Vec<Cartesian>) {
 
     // Set up lighting.
     window.set_light(Light::StickToCamera);
-
+    let eye = Point3::new(0.0, 4.0, 0.0); // Camera position along the X-axis
+    let at = Point3::new(0.0, 0.0, 0.0); // Looking at the origin
+    let mut camera = ArcBall::new(eye, at);
     // Iterate over each point and add it to the scene as a sphere.
     for point in points {
-        let mut sphere = window.add_sphere(0.0025); // Small sphere for each point
+        let mut sphere = window.add_sphere(0.0015); // Small sphere for each point
         let translation = Translation3::new(point.x, point.y, point.z);
         sphere.set_local_translation(translation); // Set position
     }
 
     // Keep the window open and interactive.
-    while window.render() {}
+    //while window.render() {}
+    while window.render_with_camera(&mut camera) {}
 }

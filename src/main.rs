@@ -2,7 +2,8 @@ extern crate orbitals;
 
 use orbitals::coordinate_conversion::Cartesian;
 use orbitals::h_orbitals::BOHR_RADIUS;
-use orbitals::random_walk::eval_step;
+use orbitals::random_walk::eval_step_1s;
+use orbitals::random_walk::eval_step_3d_z2;
 use orbitals::random_walk::new_step;
 use orbitals::render_cloud::render_cloud;
 
@@ -16,21 +17,21 @@ fn main() {
     let mut points: Vec<Cartesian> = Vec::new();
     let mut rejected = 0;
     let mut accepted = 0;
-    let radius = 3.5 * BOHR_RADIUS;
+    let radius = 5.0 * BOHR_RADIUS;
     let mut old_position = origin;
     // Burn-in period
     for _ in 0..20000 {
         let new_position = new_step(old_position, radius);
-        let valid_step = eval_step(old_position, new_position);
+        let valid_step = eval_step_1s(old_position, new_position);
         if valid_step {
             old_position = new_position;
         }
     }
     // Production period
-    let target = 25000;
+    let target = 20000;
     while accepted < target {
         let new_position = new_step(old_position, radius);
-        let valid_step = eval_step(old_position, new_position);
+        let valid_step = eval_step_3d_z2(old_position, new_position);
         if valid_step {
             //println!("New position: {:?}", new_position);
             old_position = new_position;

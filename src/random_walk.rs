@@ -2,6 +2,7 @@ use crate::coordinate_conversion::{
     cartesian_to_spherical, spherical_to_cartesian, Cartesian, Spherical,
 };
 use crate::h_orbitals::probability_density_1s;
+use crate::h_orbitals::probability_density_3d_z2;
 use crate::h_orbitals::BOHR_RADIUS;
 use rand::Rng;
 use std::f64::consts::PI;
@@ -20,12 +21,26 @@ pub fn new_step(start_pt: Cartesian, radius: f64) -> Cartesian {
     }
 }
 
-pub fn eval_step(pos_1: Cartesian, pos_2: Cartesian) -> bool {
+pub fn eval_step_1s(pos_1: Cartesian, pos_2: Cartesian) -> bool {
     let sph_1 = cartesian_to_spherical(pos_1);
     let sph_2 = cartesian_to_spherical(pos_2);
     let r_1 = sph_1.r;
     let r_2 = sph_2.r;
-    let prob_1 = probability_density_1s(r_1);
-    let prob_2 = probability_density_1s(r_2);
+    let prob_1 = probability_density_1s(r_1, 0.0, 0.0);
+    let prob_2 = probability_density_1s(r_2, 0.0, 0.0);
+    (1.0_f64).min(prob_2 / prob_1) > rand::thread_rng().gen::<f64>()
+}
+
+pub fn eval_step_3d_z2(pos_1: Cartesian, pos_2: Cartesian) -> bool {
+    let sph_1 = cartesian_to_spherical(pos_1);
+    let sph_2 = cartesian_to_spherical(pos_2);
+    let r_1 = sph_1.r;
+    let r_2 = sph_2.r;
+    let theta_1 = sph_1.theta;
+    let theta_2 = sph_2.theta;
+    let phi_1 = sph_1.phi;
+    let phi_2 = sph_2.phi;
+    let prob_1 = probability_density_3d_z2(r_1, theta_1, phi_1);
+    let prob_2 = probability_density_3d_z2(r_2, theta_2, phi_2);
     (1.0_f64).min(prob_2 / prob_1) > rand::thread_rng().gen::<f64>()
 }
