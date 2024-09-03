@@ -6,8 +6,7 @@ A sequence of approved positions forms a random walk path in 3D space, nodes of 
 # Learning Goals
 - Set up my first project in Rust
 - Learn how to use mathematical functions in Rust
-- Implement the Metropolis-Hastings algorithm in Rust 
-(based on my knowledge from prior MC simulations)
+- Implement the Metropolis-Hastings algorithm in Rust (based on my experience from prior MC simulations I did in Python / R)
 - Render 3D graphics in Rust with the kiss3d library
 # Result
 <img src="https://github.com/JoJoDataPhysics/orbitals/blob/main/3dz2.gif" alt="orbital" width="250"/>
