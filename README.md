@@ -1,7 +1,13 @@
+# Motivation
+This project should simulate the orbitals of the hydrogen atom using the Metropolis-Hastings algorithm:
+The potential location of the electron is calculated by calculating isotropic steps within a certain radius.
+The probability density according to the wave function is used to approve or reject the new potential positions.
+A sequence of approved positions forms a random path in 3D space, which is used to visualize the shape of the orbital.
+# Learning Goals
+- set up a project in Rust
+- Implement the Metropolis-Hastings algorithm
+- Render 3D graphics in Rust
 # Project Architecture
-
-This diagram represents the flow of data through the system, from the quantum theoretical probability density to the Metropolis-Hastings module and finally to the 3D rendering stage.
-
 ```mermaid
 graph TD
     A[(Quantum Theoretical Probability Density)]
@@ -9,3 +15,5 @@ graph TD
     C[(3D Rendering)]
 
     A --> B --> C
+
+
