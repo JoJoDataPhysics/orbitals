@@ -1,7 +1,8 @@
 use std::f64::consts::PI;
 
 // Constants
-pub const BOHR_RADIUS: f64 = 1.0; //5.29177210903e-11; // Bohr radius in meters
+// Bohr radius set to 1 for normalization
+pub const BOHR_RADIUS: f64 = 1.0; //5.29177210903e-11 m actual Bohr radius in meters
 
 /// Radial part of the 3d orbital (n=3, l=2)
 fn radial_part_3d(r: f64) -> f64 {
