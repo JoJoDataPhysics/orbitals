@@ -5,15 +5,17 @@ The probability density according to the wave function is used to approve or rej
 A sequence of approved positions forms a random path in 3D space, which is used to visualize the shape of the orbital.
 # Learning Goals
 - set up a project in Rust
+- Learn how to use mathematical functions in Rust
 - Implement the Metropolis-Hastings algorithm
-- Render 3D graphics in Rust
+- Render 3D graphics in Rust with the kiss3d library
 # Project Architecture
 ```mermaid
 graph TD
     A[(Quantum Theoretical Probability Density)]
-    B[(Metropolis-Hastings Module)]
-    C[(3D Rendering)]
+    B[(Metropolis-Hastings Algorithm)]
+    C[(Random Walk)]
+    D[(3D Rendering)]
 
-    A --> B --> C
+    A --> B --> C --> D
 
 
