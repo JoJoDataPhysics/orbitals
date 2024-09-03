@@ -1,8 +1,8 @@
 # Motivation
 This project should visualize the orbitals of the hydrogen atom using the Metropolis-Hastings algorithm:
-The potential locations of the electron is calculated by probing randomly oriented steps within a certain step radius.
+Potential locations of the electron are set by moving in randomly oriented steps within a certain step radius.
 Ratios of the probability densities are used to approve or reject the new potential positions.
-A sequence of approved positions forms a random walk path in 3D space, nodes of this path ar used to visualize the shape of the orbital.
+A sequence of approved positions forms a random walk path in 3D space. The Nodes of this path ar used to visualize the shape of the orbital.
 # Learning Goals
 - Set up my first project in Rust
 - Learn how to use mathematical functions in Rust
