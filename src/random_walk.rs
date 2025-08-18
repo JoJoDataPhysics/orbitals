@@ -1,8 +1,13 @@
 use crate::coordinate_conversion::{
     cartesian_to_spherical, spherical_to_cartesian, Cartesian, Spherical,
 };
-use crate::h_orbitals::probability_density_1s;
-use crate::h_orbitals::probability_density_3d_z2;
+use crate::h_orbitals::{
+    probability_density_1s, 
+    probability_density_3d_z2,
+    probability_density_2p_x,
+    probability_density_2p_y,
+    probability_density_2p_z,
+};
 use crate::h_orbitals::BOHR_RADIUS;
 use rand::Rng;
 use std::f64::consts::PI;
@@ -53,5 +58,50 @@ pub fn eval_step_3d_z2(pos_1: Cartesian, pos_2: Cartesian) -> bool {
     let phi_2 = sph_2.phi;
     let prob_1 = probability_density_3d_z2(r_1, theta_1, phi_1);
     let prob_2 = probability_density_3d_z2(r_2, theta_2, phi_2);
+    eval_step_probability(prob_1, prob_2)
+}
+
+pub fn eval_step_2p_x(pos_1: Cartesian, pos_2: Cartesian) -> bool {
+    //Evaluation based on 2p_x wavefunction
+    let sph_1 = cartesian_to_spherical(pos_1);
+    let sph_2 = cartesian_to_spherical(pos_2);
+    let r_1 = sph_1.r;
+    let r_2 = sph_2.r;
+    let theta_1 = sph_1.theta;
+    let theta_2 = sph_2.theta;
+    let phi_1 = sph_1.phi;
+    let phi_2 = sph_2.phi;
+    let prob_1 = probability_density_2p_x(r_1, theta_1, phi_1);
+    let prob_2 = probability_density_2p_x(r_2, theta_2, phi_2);
+    eval_step_probability(prob_1, prob_2)
+}
+
+pub fn eval_step_2p_y(pos_1: Cartesian, pos_2: Cartesian) -> bool {
+    //Evaluation based on 2p_y wavefunction
+    let sph_1 = cartesian_to_spherical(pos_1);
+    let sph_2 = cartesian_to_spherical(pos_2);
+    let r_1 = sph_1.r;
+    let r_2 = sph_2.r;
+    let theta_1 = sph_1.theta;
+    let theta_2 = sph_2.theta;
+    let phi_1 = sph_1.phi;
+    let phi_2 = sph_2.phi;
+    let prob_1 = probability_density_2p_y(r_1, theta_1, phi_1);
+    let prob_2 = probability_density_2p_y(r_2, theta_2, phi_2);
+    eval_step_probability(prob_1, prob_2)
+}
+
+pub fn eval_step_2p_z(pos_1: Cartesian, pos_2: Cartesian) -> bool {
+    //Evaluation based on 2p_z wavefunction
+    let sph_1 = cartesian_to_spherical(pos_1);
+    let sph_2 = cartesian_to_spherical(pos_2);
+    let r_1 = sph_1.r;
+    let r_2 = sph_2.r;
+    let theta_1 = sph_1.theta;
+    let theta_2 = sph_2.theta;
+    let phi_1 = sph_1.phi;
+    let phi_2 = sph_2.phi;
+    let prob_1 = probability_density_2p_z(r_1, theta_1, phi_1);
+    let prob_2 = probability_density_2p_z(r_2, theta_2, phi_2);
     eval_step_probability(prob_1, prob_2)
 }
